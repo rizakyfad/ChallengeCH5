@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ChallengeCH5</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="Title">Title : </string>
+    <string name="Media_Type">Media Type : </string>
+    <string name="Overview">Overview : </string>
+</resources>
