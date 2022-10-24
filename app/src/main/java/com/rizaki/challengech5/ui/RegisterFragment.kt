@@ -7,74 +7,79 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.rizaki.ViewModel.UserViewModel
 import com.rizaki.challengech5.R
 import com.rizaki.challengech5.database.User
-import com.rizaki.challengech5.database.UserDatabase
+import com.rizaki.challengech5.database.UserRepository
 import com.rizaki.challengech5.databinding.FragmentRegisterBinding
 
 
 class RegisterFragment : Fragment() {
+
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private var DbUser: UserDatabase?=null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val userViewModel by viewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//
+        insertUser()
+    }
 
-
-        DbUser = UserDatabase.getInstance(requireContext())
-        binding.btnRegister.setOnClickListener {
-
-            val username = binding.edtUsername.text.toString()
-            val fullname = binding.edtFullname.text.toString()
-            val email = binding.edtEmail.text.toString()
-            val password = binding.edtPassword.text.toString()
-            val objectUser  = User(null, username, fullname, email, password)
-            if (binding.edtFullname.text.isNullOrEmpty() || binding.edtUsername.text.isNullOrBlank() || binding.edtEmail.text.isNullOrBlank() || binding.edtPassword.text.isNullOrBlank()) {
-                Toast.makeText(
-                    activity, "Please Check the field and type again", Toast.LENGTH_LONG
-                ).show()
-            } else {
-                (binding.edtFullname.text!!.isNotEmpty() && binding.edtUsername.text!!.isNotEmpty() && binding.edtEmail.text!!.isNotEmpty() && binding.edtPassword.text!!.isNotEmpty())
-
-                Thread{
-                    val resultdb =  DbUser?.UserDao()?.Insertuser(objectUser)
-                    Log.d("login", resultdb.toString())
-                    activity?.runOnUiThread {
-                        if (resultdb !=0 .toLong())
-                        {
-                            Toast.makeText(
-                                requireContext(),
-                                "Data berhasil ditambahkan", Toast.LENGTH_LONG).show()
-                        }
-                        else{
-                            Toast.makeText(requireContext(),
-                                "Data gagal ditambahkan", Toast.LENGTH_LONG).show()
-                        }
-
-                    }
+    private fun insertUser() {
+        binding.apply {
+            btnRegister.setOnClickListener {
+                val username = edtUsername.text.toString()
+                val email = edtEmail.text.toString()
+                val password = edtPassword.text.toString()
+                val confirmPassword = edtConfirmPassword.text.toString()
+                if (username.isNullOrEmpty() || email.isNullOrEmpty() || password.isNullOrEmpty() || confirmPassword.isNullOrEmpty()) {
+                    Toast.makeText(
+                        requireContext(), "Field cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (password != confirmPassword) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Password mismatch", Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    val user = User(0, username, email, password)
+                    userViewModel.insert(user)
+                    reset()
+                    Toast.makeText(
+                        requireContext(), "Registered Successfully",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-                    .start()
-                findNavController().navigate(R.id.action_registerFragment_to_loginFragment2)
-
             }
         }
     }
 
+    private fun reset() {
+        binding.apply {
+            edtUsername.setText("")
+            edtUsername.clearFocus()
+            edtEmail.setText("")
+            edtEmail.clearFocus()
+            edtPassword.setText("")
+            edtPassword.clearFocus()
+            edtConfirmPassword.setText("")
+            edtConfirmPassword.clearFocus()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 }

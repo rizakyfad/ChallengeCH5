@@ -2,18 +2,14 @@ package com.rizaki.challengech5.database
 
 import androidx.room.*
 
-
 @Dao
 interface UserDao {
-    @Query("SELECT *  From User where username = (:username) AND password =(:password)")
-    fun loginUser (username:String, password:String): List<User>
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun Insertuser (user : User): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(user: User)
 
     @Update
-    fun updateUser (user: User): Int
+    fun update(user: User)
 
-    @Delete
-    fun deleteUser(user: User):Int
+    @Query("SELECT * FROM user WHERE email LIKE :email AND password LIKE :password")
+    fun checkUser(email: String, password: String): User
 }
