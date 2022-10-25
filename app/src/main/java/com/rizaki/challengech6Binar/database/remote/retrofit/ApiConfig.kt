@@ -1,9 +1,10 @@
-package com.rizaki.challengech5.service
+package com.rizaki.challengech6Binar.database.remote.retrofit
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 
 class ApiConfig {
@@ -17,6 +18,7 @@ class ApiConfig {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://api.themoviedb.org/3/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build()
             return retrofit.create(ApiService::class.java)
         }

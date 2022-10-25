@@ -1,4 +1,4 @@
-package com.rizaki.challengech5.ui
+package com.rizaki.challengech6Binar.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
-import com.rizaki.challengech5.databinding.FragmentDetailBinding
-import com.rizaki.challengech5.model.MovieAdapter
+import com.rizaki.challengech6Binar.databinding.FragmentDetailBinding
+import com.rizaki.challengech6Binar.helper.MovieAdapter
 
 class DetailFragment : Fragment() {
 
@@ -19,18 +19,23 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        showDetailMovie()
+    }
+
+    private fun showDetailMovie() {
         binding.apply {
-            Glide.with(view)
+            Glide.with(requireView())
                 .load(MovieAdapter.posterBaseUrl + args.movie.backdropPath)
                 .into(ivBackdrop)
-            Glide.with(view)
+            Glide.with(requireView())
                 .load(MovieAdapter.posterBaseUrl + args.movie.posterPath)
                 .into(ivPoster)
             tvTitle.text = args.movie.title

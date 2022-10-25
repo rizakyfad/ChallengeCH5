@@ -1,4 +1,4 @@
-package com.rizaki.challengech5.ui
+package com.rizaki.challengech6Binar.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -7,21 +7,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.rizaki.challengech5.R
-import com.rizaki.challengech5.databinding.FragmentHomeBinding
-import com.rizaki.challengech5.model.MovieAdapter
-import com.rizaki.challengech5.model.Preferences
-import com.rizaki.challengech5.service.Movie
+import com.rizaki.challengech6Binar.helper.MovieAdapter
+import com.rizaki.challengech6Binar.helper.UserPreferences
+import com.rizaki.challengech6Binar.service.Movie
 import com.rizaki.ViewModel.MovieViewModel
+import com.rizaki.ViewModel.UserViewModel
+import com.rizaki.challengech6Binar.R
+import com.rizaki.challengech6Binar.ViewModel.UserRepositoryViewModel
+import com.rizaki.challengech6Binar.ViewModel.ViewModelFactory
+import com.rizaki.challengech6Binar.databinding.FragmentHomeBinding
+import com.rizaki.challengech6Binar.helper.UserDataStoreManager
 
 class HomeFragment : Fragment() {
+
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val movieViewModel by viewModels<MovieViewModel>()
+    private val userRepositoryViewModel by viewModels<UserRepositoryViewModel>()
     private val args: HomeFragmentArgs by navArgs()
+
+    //    private lateinit var userPreferences: UserPreferences
+    private lateinit var viewModel: UserViewModel
+    private lateinit var pref: UserDataStoreManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,8 +46,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        binding.tvUsername.text = "Welcome, ${args.username}!"
-        binding.tvUsername.text = "Welcome, ${Preferences().getLoggedInUser(requireContext())}!"
+//        userPreferences = UserPreferences(requireContext())
+//        binding.tvUsername.text = "Welcome, ${userPreferences.getLoggedInUser()}!"
+        pref = UserDataStoreManager(requireContext())
+        viewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+
+//        viewModel.getUsername().observe(viewLifecycleOwner) {
+//            binding.tvUsername.text = "Welcome, $it!"
+//        }
+        viewModel.getId().observe(viewLifecycleOwner) {
+            if (it != 0) {
+                val user = userRepositoryViewModel.getUser(it)
+                binding.tvUsername.text = "Welcome, ${user.username}!"
+            }
+        }
+
         movieViewModel.movie.observe(viewLifecycleOwner) { setMovieData(it) }
         movieViewModel.isLoading.observe(viewLifecycleOwner) { showLoading(it) }
         binding.ibProfile.setOnClickListener {

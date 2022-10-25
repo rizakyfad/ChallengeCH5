@@ -1,15 +1,13 @@
-package com.rizaki.challengech5.model
+package com.rizaki.challengech6Binar.helper
 
 
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.rizaki.challengech5.databinding.ItemMovieBinding
-import com.rizaki.challengech5.service.Movie
-import com.rizaki.challengech5.ui.HomeFragmentDirections
+import com.rizaki.challengech6Binar.databinding.ItemMovieBinding
+import com.rizaki.challengech6Binar.service.Movie
 
 class MovieAdapter(private val listMovie: List<Movie>) :
     RecyclerView.Adapter<MovieAdapter.ViewHolder>() {

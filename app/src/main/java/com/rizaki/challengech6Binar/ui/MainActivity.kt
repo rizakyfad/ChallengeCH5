@@ -1,8 +1,8 @@
-package com.rizaki.challengech5.ui
+package com.rizaki.challengech6Binar.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.rizaki.challengech5.databinding.ActivityMainBinding
+import com.rizaki.challengech6Binar.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 

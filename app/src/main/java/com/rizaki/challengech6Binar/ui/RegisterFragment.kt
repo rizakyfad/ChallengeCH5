@@ -1,26 +1,23 @@
-package com.rizaki.challengech5.ui
+package com.rizaki.challengech6Binar.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.rizaki.ViewModel.UserViewModel
-import com.rizaki.challengech5.R
-import com.rizaki.challengech5.database.User
-import com.rizaki.challengech5.database.UserRepository
-import com.rizaki.challengech5.databinding.FragmentRegisterBinding
+import com.rizaki.challengech6Binar.ViewModel.UserRepositoryViewModel
+import com.rizaki.challengech6Binar.database.local.User
+import com.rizaki.challengech6Binar.databinding.FragmentRegisterBinding
 
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
-    private val userViewModel by viewModels<UserViewModel>()
+    private val userRepositoryViewModel by viewModels<UserRepositoryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,8 +50,13 @@ class RegisterFragment : Fragment() {
                         "Password mismatch", Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    val user = User(0, username, email, password)
-                    userViewModel.insert(user)
+                    val user = User(
+                        id = 0,
+                        username = username,
+                        email = email,
+                        password = password
+                    )
+                    userRepositoryViewModel.insert(user)
                     reset()
                     Toast.makeText(
                         requireContext(), "Registered Successfully",

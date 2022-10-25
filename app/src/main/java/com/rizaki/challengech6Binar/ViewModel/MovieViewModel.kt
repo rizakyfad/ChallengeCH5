@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import retrofit2.Response
 import androidx.lifecycle.ViewModel
-import com.rizaki.challengech5.service.ApiConfig
-import com.rizaki.challengech5.service.Movie
-import com.rizaki.challengech5.service.MovieResponse
+import com.rizaki.challengech6Binar.database.remote.retrofit.ApiConfig
+import com.rizaki.challengech6Binar.service.Movie
+import com.rizaki.challengech6Binar.service.MovieResponse
 import retrofit2.Call
 
 
@@ -21,8 +21,8 @@ class MovieViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     companion object {
-        private const val TAG = "MainViewModel"
-        private const val API_KEY = "374186e4dc9f4f0eb552ea6c3fd9e141"
+        const val TAG = "MainViewModel"
+        const val API_KEY = "374186e4dc9f4f0eb552ea6c3fd9e141"
     }
 
     init {
@@ -30,26 +30,25 @@ class MovieViewModel : ViewModel() {
     }
 
     private fun fetchData() {
-        _isLoading.value = true
+        _isLoading.postValue(true)
         val client = ApiConfig.getApiService().getMovie(API_KEY)
         client.enqueue(object : retrofit2.Callback<MovieResponse> {
             override fun onResponse(
                 call: Call<MovieResponse>,
                 response: Response<MovieResponse>
             ) {
-                _isLoading.value = false
                 if (response.isSuccessful) {
-                    _movie.value = response.body()?.results
+                    _isLoading.postValue(false)
+                    _movie.postValue(response.body()?.results)
                 } else {
                     Log.e(TAG, "onFailure: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
-                _isLoading.value = false
+                _isLoading.postValue(false)
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
     }
-
 }

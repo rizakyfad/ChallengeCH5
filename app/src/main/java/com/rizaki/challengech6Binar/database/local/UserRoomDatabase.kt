@@ -1,4 +1,4 @@
-package com.rizaki.challengech5.database
+package com.rizaki.challengech6Binar.database.local
 
 import android.content.Context
 import androidx.room.Database

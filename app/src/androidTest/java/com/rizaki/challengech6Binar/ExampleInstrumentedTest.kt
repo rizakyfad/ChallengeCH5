@@ -1,4 +1,4 @@
-package com.rizaki.challengech5
+package com.rizaki.challengech6Binar
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,4 +1,4 @@
-package com.rizaki.challengech5
+package com.rizaki.challengech6Binar
 
 import org.junit.Test
 

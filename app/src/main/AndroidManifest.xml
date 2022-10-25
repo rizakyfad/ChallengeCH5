@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.rizaki.challengech5">
+    package="com.rizaki.challengech6Binar">
 
         <uses-permission android:name="android.permission.INTERNET" />
 
@@ -13,7 +13,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.ChallengeSilverChapter5">
             <activity
-                android:name=".ui.MainActivity"
+                android:name="com.rizaki.challengech6Binar.ui.MainActivity"
                 android:exported="true"
                 android:screenOrientation="portrait"
                 tools:ignore="LockedOrientationActivity">

@@ -1,4 +1,4 @@
-package com.rizaki.challengech5.service
+package com.rizaki.challengech6Binar.service
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
